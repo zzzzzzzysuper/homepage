@@ -1,0 +1,4 @@
+# 所有文本文件统一使用 LF 换行，避免跨平台差异
+* text=auto eol=lf
+*.pdf binary
+*.png binary
