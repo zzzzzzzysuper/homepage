@@ -175,6 +175,7 @@ main { padding: 40px 0 8px; }
 }
 .contact li:last-child { border-bottom: 0; }
 .contact .k { color: var(--muted); }
+.todo { color: var(--muted); border-bottom: 1px dashed var(--line); }
 
 .hint { font-size: 14px; color: var(--muted); margin: 0; }
 

@@ -65,10 +65,10 @@ https://你的用户名.github.io/homepage/
 
 ## 修改成你自己的内容
 
-1. **改文字**：编辑 `index.html`，搜索 `张明`、`zhangming`、`示例大学` 等，替换成你的信息。
-   联系方式里同时要改 `mailto:` 和 `tel:` 后面的地址。
+1. **改文字**：编辑 `index.html`，把「待填写」等占位内容替换成你自己的信息
+   （真实姓名、专业年级、兴趣、联系方式）。
 2. **改颜色**：编辑 `style.css` 顶部的 `:root { --accent: ...; }` 等变量。
-3. **换头像**：`index.html` 里的 `<div class="avatar">张</div>` 可以换成
+3. **换头像**：`index.html` 里的 `<div class="avatar">曾</div>` 可以换成
    `<img class="avatar" src="avatar.jpg" alt="头像">`（图片放进仓库根目录）。
 4. **换简历**：把你的 PDF 命名为 `resume.pdf` 覆盖本目录的文件即可。
    （如果文件名要用中文，记得同步修改 `index.html` 里两处 `href="resume.pdf"`。）
