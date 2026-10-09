@@ -18,6 +18,16 @@
 | `snake/README.md` | 开发文档的 Markdown 原文（在 GitHub 上会被自动渲染） |
 | `snake/img/` | 开发文档里引用的验证截图（主题、GAME OVER、AI 托管与通关） |
 | `snake-ai/index.html` | 小游戏：贪吃蛇 **AI 托管版**（在基础版之上加了 AI 自动游玩） |
+| `rc_filter.py` | 进阶挑战 ①：RC 低通滤波器（PySpice 仿真 + 手算对比） |
+| `thevenin.py` | 进阶挑战 ②：戴维南定理验证（开路/短路/外加激励/接负载） |
+| `nmos_amplifier.py` | 进阶挑战 ③：NMOS 共源放大电路（直流工作点 + 小信号 + 反相波形） |
+| `common.py` | 上面三个脚本共用的模块（初始化 ngspice、跑仿真、画图、打印对比表） |
+| `schematic.py` | 用程序画电路图、直流通路图、小信号等效模型图 |
+| `run_all.py` | 一键跑完三个电路并汇总输出 |
+| `pyspice-report.md` | PySpice 三电路的**汇总报告**：手算推导 + 波形 + 「理论值 vs 仿真值」对比表 |
+| `运行结果.md` | 三个脚本的真实运行输出（对比表原文） |
+| `00_先看这个_总步骤.md` | PySpice 环境安装步骤与交付清单 |
+| `figures/` | 上述电路的波形图与电路图（12 张 PNG） |
 | `.nojekyll` | 告诉 GitHub Pages 不要用 Jekyll 处理，加快部署 |
 | `LICENSE` | 开源协议（MIT），见下文「开源许可」 |
 
@@ -47,6 +57,42 @@
 
 > 这两份游戏页面与开发文档都是由本地项目 `snake-game/` 里的 `publish_homepage.mjs`、`publish_readme.mjs`
 > 生成后复制进本仓库的；改了游戏本体后重跑脚本即可同步。
+
+---
+
+## 进阶挑战：PySpice 三个电路仿真
+
+大一考核「进阶挑战」路线 A —— 用 **PySpice**（底层调用 ngspice）做完三个电路：
+
+| # | 电路 | 做了什么 |
+| --- | --- | --- |
+| ① | RC 低通滤波器 | 方波瞬态响应（测 τ=RC）+ 波特图（测 f_c=1/2πRC）|
+| ② | 戴维南定理验证 | 4 组独立仿真：端口开路测 V_oc、短路测 I_sc、外加激励测 R_th、等效电路接负载对比 |
+| ③ | NMOS 共源放大电路 | 直流工作点（V_GS/I_D/V_DS + 饱和区判断）+ 小信号 gm/Av + 反相输出波形 |
+
+每个电路都交了：**电路图 + 手算公式与步骤 + PySpice 跑出的波形/数值 + 「理论值 vs 仿真值」对比表**。
+
+完整报告（含全部推导、12 张图和对比表）见 **[`pyspice-report.md`](pyspice-report.md)**，
+三个脚本的真实运行输出见 [`运行结果.md`](运行结果.md)，环境安装步骤见 [`00_先看这个_总步骤.md`](00_先看这个_总步骤.md)。
+
+几个值得一提的点：
+
+- **③ 的 NMOS 用 SPICE 行为源实现题目的平方律公式**，而不是套用 SPICE 自带的 MOS 模型
+  （自带模型带 1/2 和 W/L 系数，与题目给的 K 定义不一致，直接用会差 2 倍）；
+- 手算 ③ 时把**沟道长度调制 (1+λV_DS)** 也解了进去，因此手算与仿真对到小数点后 4 位
+  （V_GS 2.0000 V、I_D 0.8527 mA、V_DS 3.2946 V、gm 1.7054 mS、Av ≈ −3.30）；
+- 过程中记录了两次「手算与仿真不一致」的排查：τ 的测量方法用错前提、以及手算漏掉 λ 项，
+  都在报告里写清了原因和修法。
+
+运行方式（Windows 需先单独装 ngspice 的动态库）：
+
+```bash
+pip install PySpice
+pyspice-post-installation --install-ngspice-dll
+python rc_filter.py        # ①
+python thevenin.py         # ②
+python nmos_amplifier.py   # ③
+```
 
 ---
 
