@@ -22,6 +22,7 @@
       <p class="tagline">编程零基础起步，正在把基本功一件件补齐：命令行与 Git、HTML/CSS/JavaScript，以及用 AI 编程工具做出能跑起来的东西。</p>
       <div class="actions">
         <a class="btn primary" href="resume.pdf" download>下载个人简介 PDF</a>
+        <a class="btn" href="#games">试玩小游戏</a>
         <a class="btn" href="#contact">联系方式</a>
       </div>
     </div>
@@ -82,12 +83,29 @@
           <p>手写单页静态网站，不用框架、不用构建工具，托管在 GitHub Pages 上，零成本长期运行。</p>
         </li>
         <li>
-          <div class="p-head"><h3>单文件小游戏</h3><span class="tag">进行中 · HTML / CSS / JavaScript</span></div>
-          <p>纯前端单文件、双击即玩的小游戏，计划加入 AI 自动游玩与主题切换，重点是把游戏逻辑讲清楚。</p>
+          <div class="p-head"><h3>单文件小游戏</h3><span class="tag">已完成 · HTML / CSS / JavaScript</span></div>
+          <p>纯前端单文件、双击即玩：50×50 格贪吃蛇，WASD 操作、蛇头撞到自己身体弹 GAME OVER、深色 / 浅色主题一键切换；另外做了一版 AI 自动托管，能连续吃满 15 个食物通关。<a href="#games">在线试玩 →</a></p>
         </li>
         <li>
           <div class="p-head"><h3>电路仿真练习</h3><span class="tag">计划中 · Python / PySpice</span></div>
           <p>用 PySpice 做 RC 低通滤波器、戴维南定理验证与 NMOS 共源放大电路，手算结果和仿真结果做对比表。</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="games" class="card">
+      <h2><span class="mark"></span>小游戏 · 在线试玩</h2>
+      <p class="hint">两个版本都是纯前端单文件（HTML/CSS/JavaScript 全部内联），不依赖任何框架与网络资源，双击本地文件也能直接玩。</p>
+      <ul class="projects">
+        <li>
+          <div class="p-head"><h3>贪吃蛇 · 基础版</h3><span class="tag">WASD · 50×50 格 · 双主题</span></div>
+          <p>W/A/S/D 控制上/下/左/右，吃一个食物 +10 分并加长，每 5 个加速一档；蛇头撞到自己身体（或撞墙）即弹出 GAME OVER；深色 / 浅色两套配色一键切换，刷新后保留所选主题。</p>
+          <p><a href="snake/">▶ 在线试玩基础版</a></p>
+        </li>
+        <li>
+          <div class="p-head"><h3>贪吃蛇 · AI 托管版</h3><span class="tag">额外内置 AI 自动游玩</span></div>
+          <p>在基础版之上加了 AI 自动托管：点「🤖 AI 托管」，程序自己控制蛇去找食物、绕开自己和墙，连续吃满 15 个食物弹出「AI 通关」，全程无需人工操作（按任意方向键可随时接管）。AI 用「试走 + 追尾可达性 + 可达空间 + 最短路」决策，已用 50 局随机局面与真实浏览器端到端验证过。</p>
+          <p><a href="snake-ai/">▶ 在线试玩 AI 托管版</a> · <a href="snake-ai/?demo=ai">直接看 AI 自己玩</a></p>
         </li>
       </ul>
     </section>
