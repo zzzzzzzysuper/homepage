@@ -129,7 +129,7 @@ python verify\check_shots.py    # 需要 Pillow
 
 | 深色主题 | 浅色主题 | GAME OVER 弹层 |
 | --- | --- | --- |
-| !`深色主题` | !`浅色主题` | !`GAME OVER 弹层` |
+| ![深色主题](img/theme-dark.png) | ![浅色主题](img/theme-light.png) | ![GAME OVER 弹层](img/gameover.png) |
 
 ---
 
@@ -206,7 +206,7 @@ python verify\check_shots.py
 
 | AI 托管进行中 | AI 连续吃满 15 个食物通关 |
 | --- | --- |
-| !`AI 托管中` | !`AI 通关` |
+| ![AI 托管中](img/ai-play.png) | ![AI 通关](img/ai-win.png) |
 
 ---
 
