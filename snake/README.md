@@ -8,8 +8,9 @@
 ```
 snake-game/
 ├── snake.html          游戏本体（单文件，双击即玩；内置 AI 自动托管）
-├── README.md           本文档
+├── README.md           本文档（也就是站点上那份开发文档的源文件）
 ├── publish_homepage.mjs  发布脚本：派生「基础版（无 AI）」与「AI 托管版」到个人主页仓库
+├── publish_readme.mjs    发布脚本：把本文档渲染成个人主页上的开发文档页（含截图）
 └── verify/             验证脚本与截图（可选，不影响玩游戏）
     ├── harness.mjs         共用测试环境（把页面里的脚本装进最小 DOM 桩里真实执行）
     ├── verify.mjs          阶段一 / 阶段二 逻辑自动化测试（Node.js 运行）
@@ -271,6 +272,9 @@ python verify\check_shots.py
 | 贪吃蛇 · 基础版 | <https://zzzzzzzysuper.github.io/homepage/snake/> | **不含 AI 托管**：WASD、50×50 格、自撞弹 GAME OVER、深/浅主题切换 |
 | 贪吃蛇 · AI 托管版 | <https://zzzzzzzysuper.github.io/homepage/snake-ai/> | 在基础版之上内置「🤖 AI 托管」，可自动连续吃满 15 个食物通关 |
 | ↑ 直接看 AI 自己玩 | <https://zzzzzzzysuper.github.io/homepage/snake-ai/?demo=ai> | 打开即由 AI 自动开局，无需任何按键 |
+| **本文档的网页版** | <https://zzzzzzzysuper.github.io/homepage/snake/README.html> | 本文 README 渲染成的文档页（带目录、表格与全部截图） |
+
+### 8.1 发布游戏页面
 
 **怎么发布**（`publish_homepage.mjs`）：从 `snake.html` 派生两个单文件页面写出到主页仓库。
 
@@ -280,6 +284,32 @@ node publish_homepage.mjs --out <目录>     # 也可指定其它输出目录
 ```
 
 脚本对每一处改动都做了断言（`mustCut` / `mustSub` / `cutRange`）：基础版会删掉 AI 决策段、托管按钮、进度徽标、`?demo=ai` 与 `data-ai-steps` 等全部 AI 痕迹，删完还会再自检一遍“基础版里不允许再出现 AI 影子”，任何一处对不上就直接报错退出，避免“静默漏改”把带 AI 的版本当成基础版发出去。
+
+两个页面的页脚都带「📄 开发文档与提示词记录」入口，指向本文档的网页版。
+
+### 8.2 发布本文档（README → 个人主页）
+
+站点是纯静态托管且关掉了 Jekyll（`.nojekyll`），`.md` 不会被渲染成网页；环境里也没有可用的 Markdown 库，
+所以 `publish_readme.mjs` 里自带一个针对本文所用语法子集的渲染器（标题、表格、代码块、
+嵌套列表、复选框、引用、`<kbd>`、自动链接），**不引入任何依赖**：
+
+```powershell
+node publish_readme.mjs                   # 生成 ../homepage/snake/README.html + README.md + img/
+```
+
+产物三件套：
+
+- `snake/README.html` —— 站点风格的文档页：自动生成目录（H2 条目）、5 张表格、全部代码块与验证截图；
+- `snake/README.md` —— Markdown 副本（图片路径改写为 `img/`），在 GitHub 上点开会被自动渲染；
+- `snake/img/*.png` —— 文档里引用的截图，从 `verify/` 复制过去。
+
+渲染后会做结构自检，**期望值全部从源 Markdown 推导**（所以以后增删章节不用改脚本）：表格数 / 代码块数 /
+图片数 / H2 数必须与源文件一致，正文里不允许残留 `**`、表格分隔行或未改写的 `verify/` 链接，
+引用的截图必须与复制清单完全一致，Markdown 副本必须保留图片语法。
+
+> 踩过的坑（已修）：最初先改写图片、再跑链接规则，结果 `![说明](img/x.png)` 里的 `[]()` 被链接规则截获，
+> 5 张截图在 Markdown 副本里被降级成了纯文本。现在改为一次遍历同时处理图片与链接，并加了对应自检 ——
+> 这也是“验证脚本本身也要复核”的一个实例。
 
 **发布前怎么验证**（测的就是发布出去的那两份文件）：
 
@@ -294,6 +324,7 @@ node verify\ai_test.mjs                                # 阶段三   → 18 项�
 
 **发布后线上复验**（2026-10-09 实测）：
 
-- 主页、`snake/`、`snake-ai/` 三个地址均返回 HTTP 200，主页已含两个游戏入口；
+- 主页、`snake/`、`snake-ai/`、`snake/README.html` 四个地址均返回 HTTP 200，主页已含两个游戏入口与文档链接；
 - 线上基础版：渲染出画布、`data-state="idle"`，页面里**搜不到任何 AI 代码或按钮**；
-- 线上 AI 托管版：用无头浏览器打开 `?demo=ai&speed=5` 真实跑完 —— `data-state="ai-won"`、`data-foods="15"`、蛇长 18、**零 GAME OVER**，弹层显示「AI 通关」，实测走了 516 步。
+- 线上 AI 托管版：用无头浏览器打开 `?demo=ai&speed=5` 真实跑完 —— `data-state="ai-won"`、`data-foods="15"`、蛇长 18、**零 GAME OVER**，弹层显示「AI 通关」，实测走了 516 步；
+- 线上文档页：标题、5 张表格、9 段代码、5 张截图、9 条目录全部就位；5 张截图逐个请求均为 `HTTP 200 image/png`；Markdown 副本里的 5 条图片引用（`img/*.png`）完好。
