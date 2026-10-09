@@ -13,10 +13,40 @@
 | `index.html` | 主页结构：自我介绍、兴趣、技能、项目、联系方式 |
 | `style.css` | 全部样式：配色、排版、响应式、深色模式、打印样式 |
 | `resume.pdf` | 个人简介 PDF，可直接下载（页面上「下载个人简介 PDF」按钮） |
+| `snake/index.html` | 小游戏：贪吃蛇**基础版**（WASD · 50×50 格 · 自撞弹 GAME OVER · 深浅主题） |
+| `snake/README.html` | 贪吃蛇**开发文档**（README 的网页版）：实现过程、验证方法、给 AI 的提示词记录 |
+| `snake/README.md` | 开发文档的 Markdown 原文（在 GitHub 上会被自动渲染） |
+| `snake/img/` | 开发文档里引用的验证截图（主题、GAME OVER、AI 托管与通关） |
+| `snake-ai/index.html` | 小游戏：贪吃蛇 **AI 托管版**（在基础版之上加了 AI 自动游玩） |
 | `.nojekyll` | 告诉 GitHub Pages 不要用 Jekyll 处理，加快部署 |
 | `LICENSE` | 开源协议（MIT），见下文「开源许可」 |
 
 > 样式集中定义在 `style.css` 顶部的 `:root` 变量里，改那几个颜色变量就能整体换风格。
+
+---
+
+## 仓库里的两个在线小游戏
+
+| 版本 | 在线地址 |
+| --- | --- |
+| 贪吃蛇 · 基础版 | <https://zzzzzzzysuper.github.io/homepage/snake/> |
+| 贪吃蛇 · AI 托管版 | <https://zzzzzzzysuper.github.io/homepage/snake-ai/> |
+| 直接看 AI 自己玩 | <https://zzzzzzzysuper.github.io/homepage/snake-ai/?demo=ai> |
+| 开发文档（README） | <https://zzzzzzzysuper.github.io/homepage/snake/README.html> |
+
+两个游戏都是**纯前端单文件**（HTML/CSS/JavaScript 全部内联在一个 `index.html` 里），不依赖任何框架、
+不请求任何外部资源，把文件下载下来双击也能直接玩：
+
+- **基础版**：`W/A/S/D` 控制上/下/左/右，吃食物 +10 分并加长，每 5 个加速一档；蛇头撞到自己身体（或撞墙）
+  弹出 `GAME OVER`；深色 / 浅色两套配色一键切换，刷新后保留所选主题。
+- **AI 托管版**：多一个「🤖 AI 托管」按钮，程序自己控制蛇去找食物、绕开自己和墙，连续吃满 15 个食物弹出
+  「AI 通关」，全程无需人工操作。
+
+开发文档（`snake/README.html`）里写了三件事：**阶段一**（核心玩法）、**阶段二**（主题切换）、
+**阶段三**（AI 自动托管）分别是怎么实现、怎么验证的，以及给 AI 的关键提示词原文和每轮迭代记录。
+
+> 这两份游戏页面与开发文档都是由本地项目 `snake-game/` 里的 `publish_homepage.mjs`、`publish_readme.mjs`
+> 生成后复制进本仓库的；改了游戏本体后重跑脚本即可同步。
 
 ---
 
